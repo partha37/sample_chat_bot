@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sample Chat Bot · LangGraph + Gemini</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <!-- ---------------------------------------------------------------- -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">&#9672;</span>
+        <div class="brand-text">
+          <h1>Sample Chat Bot</h1>
+          <p>LangGraph &middot; Gemini &middot; FastAPI &middot; Node</p>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <div class="status-pill" id="healthPill">
+          <span class="dot" id="healthDot"></span>
+          <span id="healthText">checking backend&hellip;</span>
+        </div>
+        <button class="ghost" id="clearSession" title="Start a new conversation">
+          New session
+        </button>
+      </div>
+    </header>
+
+    <!-- ---------------------------------------------------------------- -->
+    <main class="layout">
+      <!-- Chat --------------------------------------------------------- -->
+      <section class="panel chat-panel">
+        <div class="panel-head">
+          <h2>Conversation</h2>
+          <span class="muted" id="sessionLabel">session: &mdash;</span>
+        </div>
+
+        <div class="chat-log" id="chatLog">
+          <div class="message bot">
+            <div class="bubble">
+              <p>
+                Hi! I am running on a <strong>LangGraph</strong> state machine backed by
+                <strong>Gemini</strong>. Everything I do is traced &mdash; open the
+                <em>Trace</em> tab on the right to watch each node fire.
+              </p>
+              <p class="hint">
+                Try: <code>what is 12 * (3 + 4)?</code> &middot;
+                <code>what time is it?</code> &middot;
+                <code>explain langgraph in 3 bullets</code>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="composer">
+          <textarea
+            id="input"
+            rows="1"
+            placeholder="Type a message and press Enter (Shift+Enter for a new line)"
+          ></textarea>
+          <button id="send" class="primary">Send</button>
+          <button id="stop" class="ghost" hidden>Stop</button>
+        </div>
+      </section>
+
+      <!-- Debug -------------------------------------------------------- -->
+      <aside class="panel debug-panel">
+        <div class="panel-head">
+          <h2>Debugger</h2>
+          <div class="head-actions">
+            <label class="toggle">
+              <input type="checkbox" id="debugToggle" checked />
+              <span>live</span>
+            </label>
+            <button class="ghost small" id="refreshDebug">Refresh</button>
+          </div>
+        </div>
+
+        <nav class="tabs" role="tablist">
+          <button class="tab active" data-tab="trace" role="tab">Trace</button>
+          <button class="tab" data-tab="graph" role="tab">Graph</button>
+          <button class="tab" data-tab="breakpoints" role="tab">Breakpoints</button>
+          <button class="tab" data-tab="requests" role="tab">Requests</button>
+        </nav>
+
+        <!-- Trace tab -->
+        <div class="tab-body active" id="tab-trace">
+          <div class="trace-meta" id="traceMeta">
+            <span class="muted">No trace yet &mdash; send a message to start one.</span>
+          </div>
+          <div class="timeline" id="timeline"></div>
+          <div class="trace-detail" id="traceDetail"></div>
+        </div>
+
+        <!-- Graph tab -->
+        <div class="tab-body" id="tab-graph">
+          <div class="flow" id="flow"></div>
+          <div class="legend">
+            <span><i class="swatch done"></i>completed</span>
+            <span><i class="swatch run"></i>running</span>
+            <span><i class="swatch err"></i>error</span>
+            <span><i class="swatch idle"></i>idle</span>
+          </div>
+        </div>
+
+        <!-- Breakpoints tab -->
+        <div class="tab-body" id="tab-breakpoints">
+          <p class="muted small-note">
+            <strong>break</strong> pauses the graph before the node runs and hands you the
+            state. <strong>skip</strong> jumps over it. Then use
+            <em>Resume</em> in the trace tab to continue.
+          </p>
+          <div class="bp-list" id="bpList"></div>
+        </div>
+
+        <!-- Requests tab -->
+        <div class="tab-body" id="tab-requests">
+          <div class="req-summary" id="reqSummary"></div>
+          <div class="table-wrap">
+            <table class="req-table">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Path</th>
+                  <th>Status</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody id="reqBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <script src="/js/app.js"></script>
+  </body>
+</html>

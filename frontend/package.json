@@ -1,0 +1,23 @@
+{
+  "name": "sample-chat-bot-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lightweight Node/Express UI for the sample chat bot with a built-in debug panel",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0"
+  },
+  "devDependencies": {
+    "chokidar": "^4.0.1"
+  }
+}
